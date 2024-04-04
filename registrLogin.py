@@ -1,5 +1,3 @@
-
-
 from PyQt5.QtWidgets import QWidget,QLabel,QPushButton,QLineEdit,QApplication,QCheckBox,QHBoxLayout,QVBoxLayout,QMessageBox
 from index import Repsitory
 

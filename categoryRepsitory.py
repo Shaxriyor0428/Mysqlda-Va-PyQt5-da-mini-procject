@@ -1,5 +1,6 @@
 """
 CREATE TABLE category(id varchar(100),name varchar(100) UNIQUE PRIMARY KEY(id));
+
 """
 
 from uuid import uuid4

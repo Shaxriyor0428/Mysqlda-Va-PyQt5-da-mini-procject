@@ -100,5 +100,3 @@ app = QApplication([])
 window = Mainwindow()
 window.show()
 app.exec()
-
-
