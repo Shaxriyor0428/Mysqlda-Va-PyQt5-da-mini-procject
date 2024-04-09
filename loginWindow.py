@@ -1,15 +1,30 @@
-from PyQt5.QtWidgets import QWidget,QLabel,QPushButton,QLineEdit,QApplication,QCheckBox,QMessageBox
+from PyQt5.QtWidgets import QWidget,QLabel,QPushButton,QLineEdit,QApplication,QCheckBox,QMessageBox,QCompleter
 from index import Repsitory
 from userMainWindow import UserMainwindow
+from bookCreate import BookCreate
+from createBook_category import CreateBookCategory
 
+class GetInfo():
+    def __init__(self):
+        self.info = Repsitory().userRepsitory().getByName()
+    
+    def GetNameInfo(self):
+        names = []
+        for item in self.info:
+            names.append(item[3])
+        result = [i.lower() for i in names]
+        return result
 
 class Mainwindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(400,300)
+        self.setFixedSize(400,400)
+        obj = GetInfo()
+        self.names = QCompleter(obj.GetNameInfo())
     
         self.liniUser = QLineEdit(self)
         self.liniUser.move(150,20)
+        self.liniUser.setCompleter(self.names)
         self.liniUser.textChanged.connect(self.LoginOnoff)
         self.liniPass = QLineEdit(self)
         self.liniPass.move(150,50)
@@ -20,13 +35,13 @@ class Mainwindow(QWidget):
         self.lblPass = QLabel("Password",self)
         self.lblPass.move(50,55)
         self.btnLogin = QPushButton("Login",self)
-        self.btnRegister = QPushButton("Register",self)
+        self.btnRegister = QPushButton("User Register",self)
+
+        
 
 
-
-
-        self.btnRegister.move(150,200)
-        self.btnLogin.move(150,150)
+        self.btnRegister.move(130,210)
+        self.btnLogin.move(150,270)
         self.liniUser.setStyleSheet("font-size:20px;")
         self.liniPass.setStyleSheet("font-size:20px;")
         self.btnLogin.setStyleSheet("font-size:20px;")
@@ -44,8 +59,29 @@ class Mainwindow(QWidget):
         self.btnRegister.clicked.connect(self.registratsiya)
         self.btnBack = QPushButton("Back",self)
         self.btnBack.setStyleSheet("font-size:20px;color:red")
-        self.btnBack.move(150,250)
+        self.btnBack.move(150,330)
         self.btnBack.clicked.connect(self.backClose)
+
+        self.btnBookCreate = QPushButton("Book Create",self)
+        self.btnBookCreate.move(140,150)
+        self.btnBookCreate.setStyleSheet("font-size:20px")
+        self.btnBookCreate.clicked.connect(self.bookWindow)
+
+        self.btnBookCreateCategory = QPushButton("Book Create Category",self)
+        self.btnBookCreateCategory.move(100,100)
+        self.btnBookCreateCategory.setStyleSheet("font-size:20px")
+        self.btnBookCreateCategory.clicked.connect(self.categoryWindow)
+
+
+    def bookWindow(self):
+
+        self.bookwin = BookCreate()
+        self.bookwin.show()
+
+    def categoryWindow(self):
+        self.categoryWin = CreateBookCategory()
+        self.categoryWin.show()
+
     def showPassword(self):
         if self.chBox.isChecked():
             self.liniPass.setEchoMode(QLineEdit.Normal)
@@ -58,7 +94,6 @@ class Mainwindow(QWidget):
         
         else:
             self.btnLogin.setEnabled(False)
-
 
 
     def checkInfo(self):
@@ -85,7 +120,7 @@ class Mainwindow(QWidget):
         from registrLogin import Register
         self.obj = Register()
         self.obj.show()
-        self.close()
+  
 
 
     def messagBox(self,message):

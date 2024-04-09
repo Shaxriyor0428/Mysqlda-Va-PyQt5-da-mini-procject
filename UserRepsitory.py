@@ -50,3 +50,10 @@ class UserRepsitory:
             return UserInterface(data[0])
         else:
             return None
+
+    def getByName(self):
+        query = "SELECT * FROM users"
+        self.dbCur.execute(query)
+        data = self.dbCur.fetchall()
+
+        return data

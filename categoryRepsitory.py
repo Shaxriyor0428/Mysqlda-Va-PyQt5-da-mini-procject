@@ -34,8 +34,25 @@ class CategoryRepsitory:
             return CategoryInterface(data[0])
         else:
             return None
-     
         
+    def getByUserName(self,name):
+        query = "SELECT * FROM category WHERE name = %s"
+        self.dbCur.execute(query,(name,))
+        data = self.dbCur.fetchall()
+
+        if len(data):
+            return CategoryInterface(data[0])
+        else:
+            return None
+
+     
+    def getByName(self):
+        query = "SELECT * FROM category"
+        self.dbCur.execute(query)
+        data = self.dbCur.fetchall()
+
+        return data
+
 
     def getList(self,page,size,search) -> list[CategoryInterface]:
         query = "SELECT * FROM category WHERE name like CONCAT('%', %s,'%') LIMIT %s OFFSET %s"
